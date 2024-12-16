@@ -1,0 +1,236 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Template para Sistema de Diseño y Generación de Documentos PDF"
+
+Parameters:
+    # Parámetros de Base de Datos
+    DBHost:
+        Type: String
+        Description: Host de la base de datos PostgreSQL
+        NoEcho: true
+
+    DBPort:
+        Type: String
+        Description: Puerto de la base de datos
+        Default: "5432"
+
+    DBName:
+        Type: String
+        Description: Nombre de la base de datos
+
+    DBUsername:
+        Type: String
+        Description: Usuario de la base de datos
+        NoEcho: true
+
+    DBPassword:
+        Type: String
+        Description: Contraseña de la base de datos
+        NoEcho: true
+
+    Environment:
+        Type: String
+        Description: Ambiente de despliegue
+        AllowedValues:
+            - dev
+            - staging
+            - prod
+        Default: dev
+
+Resources:
+    # S3 Bucket para Frontend Estático
+    FrontendBucket:
+        Type: AWS::S3::Bucket
+        Properties:
+            BucketName: !Sub "${AWS::StackName}-frontend-${Environment}"
+            AccessControl: Private
+            PublicAccessBlockConfiguration:
+                BlockPublicAcls: false
+                BlockPublicPolicy: false
+                IgnorePublicAcls: false
+                RestrictPublicBuckets: false
+            WebsiteConfiguration:
+                IndexDocument: index.html
+                ErrorDocument: error.html
+            CorsConfiguration:
+                CorsRules:
+                    - AllowedHeaders: ["*"]
+                      AllowedMethods: [GET]
+                      AllowedOrigins: ["*"]
+                      MaxAge: 3000
+
+    # Política del Bucket
+    FrontendBucketPolicy:
+        Type: AWS::S3::BucketPolicy
+        Properties:
+            Bucket: !Ref FrontendBucket
+            PolicyDocument:
+                Version: "2012-10-17"
+                Statement:
+                    - Sid: PublicReadGetObject
+                      Effect: Allow
+                      Principal: "*"
+                      Action: "s3:GetObject"
+                      Resource: !Sub "${FrontendBucket.Arn}/*"
+
+    # ECR Repository
+    BackendRepository:
+        Type: AWS::ECR::Repository
+        Properties:
+            RepositoryName: !Sub "${AWS::StackName}-backend-${Environment}"
+            ImageScanningConfiguration:
+                ScanOnPush: true
+            ImageTagMutability: MUTABLE
+            LifecyclePolicy:
+                LifecyclePolicyText: |
+                    {
+                      "rules": [
+                        {
+                          "rulePriority": 1,
+                          "description": "Keep last 5 images",
+                          "selection": {
+                            "tagStatus": "untagged",
+                            "countType": "imageCountMoreThan",
+                            "countNumber": 5
+                          },
+                          "action": {
+                            "type": "expire"
+                          }
+                        }
+                      ]
+                    }
+
+    # ECS Cluster
+    ECSCluster:
+        Type: AWS::ECS::Cluster
+        Properties:
+            ClusterName: !Sub "${AWS::StackName}-cluster-${Environment}"
+            CapacityProviders:
+                - FARGATE
+            DefaultCapacityProviderStrategy:
+                - CapacityProvider: FARGATE
+                  Weight: 1
+
+    # ECS Task Execution Role
+    ECSTaskExecutionRole:
+        Type: AWS::IAM::Role
+        Properties:
+            RoleName: !Sub "${AWS::StackName}-task-execution-role-${Environment}"
+            AssumeRolePolicyDocument:
+                Version: "2012-10-17"
+                Statement:
+                    - Effect: Allow
+                      Principal:
+                          Service: ecs-tasks.amazonaws.com
+                      Action: sts:AssumeRole
+            ManagedPolicyArns:
+                - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+
+    # ECS Task Definition
+    BackendTaskDefinition:
+        Type: AWS::ECS::TaskDefinition
+        Properties:
+            Family: !Sub "${AWS::StackName}-backend-task-${Environment}"
+            RequiresCompatibilities:
+                - FARGATE
+            NetworkMode: awsvpc
+            Cpu: "256"
+            Memory: "512"
+            ExecutionRoleArn: !GetAtt ECSTaskExecutionRole.Arn
+            TaskRoleArn: !GetAtt ECSTaskExecutionRole.Arn
+            ContainerDefinitions:
+                - Name: backend
+                  Image: !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${BackendRepository}:latest"
+                  Essential: true
+                  PortMappings:
+                      - ContainerPort: 5000
+                        Protocol: tcp
+                  Environment:
+                      - Name: ENVIRONMENT
+                        Value: !Ref Environment
+                  Secrets:
+                      - Name: DB_HOST
+                        ValueFrom: !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${Environment}/db/host"
+                      - Name: DB_PORT
+                        ValueFrom: !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${Environment}/db/port"
+                      - Name: DB_NAME
+                        ValueFrom: !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${Environment}/db/name"
+                      - Name: DB_USER
+                        ValueFrom: !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${Environment}/db/user"
+                      - Name: DB_PASSWORD
+                        ValueFrom: !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${Environment}/db/password"
+                  LogConfiguration:
+                      LogDriver: awslogs
+                      Options:
+                          awslogs-group: !Ref LogGroup
+                          awslogs-region: !Ref AWS::Region
+                          awslogs-stream-prefix: backend
+
+    # CloudWatch Log Group
+    LogGroup:
+        Type: AWS::Logs::LogGroup
+        Properties:
+            LogGroupName: !Sub "/ecs/${AWS::StackName}-${Environment}"
+            RetentionInDays: 30
+
+    # Parameter Store Entries
+    DBHostParameter:
+        Type: AWS::SSM::Parameter
+        Properties:
+            Name: !Sub "/${Environment}/db/host"
+            Type: String
+            Value: !Ref DBHost
+            Description: Host de la base de datos
+
+    DBPortParameter:
+        Type: AWS::SSM::Parameter
+        Properties:
+            Name: !Sub "/${Environment}/db/port"
+            Type: String
+            Value: !Ref DBPort
+            Description: Puerto de la base de datos
+
+    DBNameParameter:
+        Type: AWS::SSM::Parameter
+        Properties:
+            Name: !Sub "/${Environment}/db/name"
+            Type: String
+            Value: !Ref DBName
+            Description: Nombre de la base de datos
+
+    DBUserParameter:
+        Type: AWS::SSM::Parameter
+        Properties:
+            Name: !Sub "/${Environment}/db/user"
+            Type: String
+            Value: !Ref DBUsername
+            Description: Usuario de la base de datos
+
+    DBPasswordParameter:
+        Type: AWS::SSM::Parameter
+        Properties:
+            Name: !Sub "/${Environment}/db/password"
+            Type: String
+            Value: !Ref DBPassword
+            Description: Contraseña de la base de datos
+            Tier: Standard
+
+Outputs:
+    FrontendBucketName:
+        Description: Nombre del bucket para el frontend
+        Value: !Ref FrontendBucket
+
+    FrontendBucketWebsite:
+        Description: URL del sitio web estático
+        Value: !GetAtt FrontendBucket.WebsiteURL
+
+    BackendRepositoryURI:
+        Description: URI del repositorio ECR
+        Value: !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${BackendRepository}"
+
+    ECSClusterName:
+        Description: Nombre del cluster ECS
+        Value: !Ref ECSCluster
+
+    ECSTaskDefinitionARN:
+        Description: ARN de la Task Definition
+        Value: !Ref BackendTaskDefinition

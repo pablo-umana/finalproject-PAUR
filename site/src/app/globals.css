@@ -1,0 +1,245 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilos base para el editor */
+.ProseMirror {
+    @apply p-4 outline-none w-full;
+    min-height: 200px;
+}
+
+.ProseMirror > * + * {
+    @apply mt-4;
+}
+
+.ProseMirror p {
+    @apply text-gray-900;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+    @apply pl-4;
+}
+
+.ProseMirror ul {
+    @apply list-disc;
+}
+
+.ProseMirror ol {
+    @apply list-decimal;
+}
+
+.ProseMirror h1 {
+    @apply text-2xl font-bold;
+}
+
+.ProseMirror h2 {
+    @apply text-xl font-bold;
+}
+
+.ProseMirror h3 {
+    @apply text-lg font-bold;
+}
+
+.ProseMirror blockquote {
+    @apply pl-4 border-l-4 border-gray-200 italic;
+}
+
+.ProseMirror code {
+    @apply bg-gray-100 px-1 rounded;
+}
+
+/* Estilos para el placeholder */
+.ProseMirror p.is-editor-empty:first-child::before {
+    color: #adb5bd;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+}
+
+:root {
+    --background: #ffffff;
+    --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #0a0a0a;
+        --foreground: #ededed;
+    }
+}
+
+body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Estilos para el contenido del editor */
+.prose {
+    @apply max-w-none;
+}
+
+.prose p {
+    @apply my-2;
+}
+
+.prose h1 {
+    @apply text-2xl font-bold my-4;
+}
+
+.prose h2 {
+    @apply text-xl font-bold my-3;
+}
+
+.prose h3 {
+    @apply text-lg font-bold my-2;
+}
+
+.prose ul,
+.prose ol {
+    @apply my-2 pl-4;
+}
+
+.prose ul {
+    @apply list-disc;
+}
+
+.prose ol {
+    @apply list-decimal;
+}
+
+/* Estilos para el redimensionamiento de imágenes */
+.ProseMirror {
+    img {
+        &.ProseMirror-selectednode {
+            outline: 3px solid #68cef8;
+        }
+
+        &.resize-cursor {
+            cursor: pointer;
+        }
+    }
+}
+
+.image-resizer {
+    display: inline-flex;
+    position: relative;
+    flex-grow: 0;
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .resize-trigger {
+        position: absolute;
+        right: -6px;
+        bottom: -6px;
+        width: 12px;
+        height: 12px;
+        background-color: #68cef8;
+        border-radius: 50%;
+        cursor: se-resize;
+    }
+}
+
+/* Estilos para imágenes redimensionables */
+.ProseMirror img {
+    position: relative;
+    cursor: default;
+    max-width: 100%;
+    height: auto;
+}
+
+.ProseMirror img.ProseMirror-selectednode {
+    outline: 2px solid #68cef8;
+}
+
+.resize-handle {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 8px;
+    height: 8px;
+    background-color: #68cef8;
+    border-radius: 50%;
+    cursor: se-resize;
+}
+
+.image-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.image-wrapper.resize-active {
+    user-select: none;
+}
+
+/* Estilos para columnas */
+.columns-container {
+    display: grid;
+    gap: 2rem;
+    margin: 1rem 0;
+}
+
+.columns-container[data-cols="2"] {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.columns-container[data-cols="3"] {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 768px) {
+    .columns-container {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Estilos para tablas */
+.ProseMirror table {
+    border-collapse: collapse;
+    margin: 0;
+    overflow: hidden;
+    table-layout: fixed;
+    width: 100%;
+    background-color: white;
+}
+
+.ProseMirror td,
+.ProseMirror th {
+    border: none;
+    box-sizing: border-box;
+    min-width: 1em;
+    padding: 0.5rem;
+    position: relative;
+    vertical-align: top;
+}
+
+.ProseMirror th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.ProseMirror .selectedCell:after {
+    background: rgba(200, 200, 255, 0.4);
+    content: "";
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 2;
+}
+
+.tableWrapper {
+    overflow-x: auto;
+}
+
+.resize-cursor {
+    cursor: ew-resize;
+    cursor: col-resize;
+}
