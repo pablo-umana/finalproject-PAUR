@@ -944,51 +944,135 @@ Please indicate a valid Swagger or OpenAPI version field. Supported version fiel
 
 ### Prompt 79:
 
-
+Como desarrollador backend necesito que revises y analices el documento @readme.md para tener contexto de los requerimientos y solicitudes. Una vez que haya entendido el contexto, revisa la tarea el ticket: "TICK-004: Backend - API de Variables" e indicame cuales serían las acciones a realizar para implementar esta tarea. Por ahora no hagas ningun cambio a nivel de codigo
 
 ### Prompt 80:
 
-
+Ahora con el listado claro, revisa el proyecto en Python y Flask que esta @services , tiene model ya creaado. De acuerdo a los puntos que indica verifica lo que ya esta creado y analiza la estructura del proyecto para que tengas un idea de como implementar el ticket en este proyecto.
 
 ### Prompt 81:
 
-
+Bien, entonces indicame a modo el listado de acciones que realizaras y en que orden, antes de comenzar
 
 ### Prompt 82:
 
-
+Inicia entonces con el punto 1.
 
 ### Prompt 83:
 
-
+Continua con el punto 2
 
 ### Prompt 84:
 
-
+Continua con el punto 3
 
 ### Prompt 85:
 
-
+Continua con el punto 4
 
 ### Prompt 86:
 
-
+Continua con el punto 5
 
 ### Prompt 87:
 
-
+Ahora continua con el punto 6 y para el 7 por ahora solo crea services correspondiente en la carpeta @services
 
 ### Prompt 88:
 
-
+Volviendo al documento @readme.md , revisa y analiza el ticket "TICK-006: Backend - Sistema de Plantillas". Dado que se trata del core del sistema, si tienes algunas dudas hazlas antes de indicarme cuales serán las acciones a realizar.
 
 ### Prompt 89:
 
+En respuesta a tus consultas:
 
+Versionamiento de Plantillas:
+¿El versionamiento debe ser automático con cada cambio o manual cuando el usuario lo decida?
+Respuesta: Cuando el usuario decida
+¿Se debe mantener un historial de cambios entre versiones?
+Respuesta: Si
+¿Las versiones anteriores deben permanecer editables o se congelan?
+Respuesta: No se puede modificar las versiones anteriores
+Gestión de Recursos:
+En el modelo ya existe TemplateResource, pero ¿cómo se manejarán físicamente los recursos?
+Respuesta: Si te refieres a los archivos, entonces de ser necesario se guardaran en S3
+¿Se usará S3 o almacenamiento local?
+Respuesta: S3
+¿Hay límites específicos para los recursos además del 1MB mencionado?
+Respuesta: No
+Sistema de Permisos:
+El modelo TemplatePermission ya existe, pero ¿cómo se heredan los permisos?
+Respuesta: No se heredan
+¿Los permisos son a nivel de plantilla o también por versión?
+Respuesta: A nivel de plantilla
+¿Hay roles específicos que siempre deben tener acceso total?
+Respuesta: Si, debe haber un administrador que tenga acceso a todas las plantillas
+Validación de Plantillas:
+¿Qué aspectos específicos se deben validar en una plantilla?
+Respuesta: Si te refieres a la estructura de la plantilla, entonces se debe validar que tenga un header, footer y al menos algo en el body, aunque sea solo una variable
+¿Hay reglas de negocio específicas para considerar una plantilla como válida?
+Respuesta: Lo mismo del punto anterior, que tenga contenido en las tres secciones
+¿Se requiere validación de estructura HTML/CSS en el contenido?
+Respuesta: No por ahora, a menos que la librería que se utilice requiera validar la estructura del contenido.
+Integración con Variables:
+¿Cómo se maneja la relación entre plantillas y variables cuando se versiona?
+Respuesta: las variables se mantienen y si no ocupan en futuras versiones se deben mantener en ya podría volverse a usar una versión especifica de una plantilla
+¿Las variables pueden cambiar entre versiones de una plantilla?
+Respuesta: No, debería ser siempre lo mismo.
+¿Qué sucede con las variables cuando se elimina una plantilla?
+Respuesta: Solo se elimina la plantilla, las variables se mantienen.
 
 ### Prompt 90:
 
-
+Bien entonces comienza con S3ResourceManager
 
 ### Prompt 91:
+
+Continua con TemplateValidator
+
+### Prompt 92:
+
+Continua con TemplateRepository
+
+### Prompt 93:
+
+Continua con TemplatePermissionService
+
+### Prompt 94:
+
+Continua con TemplateService
+
+### Prompt 95:
+
+Continua con los Controladores
+
+### Prompt 96:
+
+Ahora que implementaste todos los puntos, debereias generar la documentación en swagger de todos los nuevos servicios que agregaste
+
+### Prompt 97:
+
+
+
+### Prompt 98:
+
+
+
+### Prompt 99:
+
+
+
+### Prompt 100:
+
+
+
+### Prompt 101:
+
+
+
+### Prompt 102:
+
+
+
+### Prompt 103:
 

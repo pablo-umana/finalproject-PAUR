@@ -117,9 +117,768 @@
           }
         }
       }
+    },
+    "/variables": {
+      "get": {
+        "tags": ["Variables"],
+        "summary": "Obtener variables",
+        "description": "Obtiene todas las variables, opcionalmente filtradas por plantilla",
+        "parameters": [
+          {
+            "name": "template_id",
+            "in": "query",
+            "description": "ID de la plantilla para filtrar",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de variables",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Variable"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Variables"],
+        "summary": "Crear variable",
+        "description": "Crea una nueva variable",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VariableCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Variable creada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Variable"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/variables/{variable_id}": {
+      "parameters": [
+        {
+          "name": "variable_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "tags": ["Variables"],
+        "summary": "Obtener variable por ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Variable encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VariableResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Variables"],
+        "summary": "Actualizar variable",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VariableUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Variable actualizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VariableResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Variables"],
+        "summary": "Eliminar variable",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Variable eliminada exitosamente"
+          }
+        }
+      }
+    },
+    "/templates/{template_id}/variables/bulk": {
+      "post": {
+        "tags": ["Variables"],
+        "summary": "Crear múltiples variables",
+        "parameters": [
+          {
+            "name": "template_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VariableBulkCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Variables creadas exitosamente"
+          }
+        }
+      }
+    },
+    "/variables/predefined": {
+      "get": {
+        "tags": ["Variables"],
+        "summary": "Obtener variables predefinidas",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de variables predefinidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PredefinedVariable"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/templates": {
+      "get": {
+        "tags": ["Plantillas"],
+        "summary": "Obtener plantillas",
+        "description": "Lista todas las plantillas a las que el usuario tiene acceso",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Lista de plantillas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Template" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Plantillas"],
+        "summary": "Crear plantilla",
+        "description": "Crea una nueva plantilla con su versión inicial",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/TemplateCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Plantilla creada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": { "$ref": "#/components/schemas/Template" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/templates/{template_id}": {
+      "parameters": [
+        {
+          "name": "template_id",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "integer" }
+        }
+      ],
+      "get": {
+        "tags": ["Plantillas"],
+        "summary": "Obtener plantilla",
+        "description": "Obtiene una plantilla específica",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Plantilla encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": { "$ref": "#/components/schemas/Template" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Plantillas"],
+        "summary": "Actualizar plantilla",
+        "description": "Actualiza una plantilla existente",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/TemplateUpdate" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Plantilla actualizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": { "$ref": "#/components/schemas/Template" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Plantillas"],
+        "summary": "Eliminar plantilla",
+        "description": "Elimina una plantilla y sus recursos",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Plantilla eliminada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/templates/{template_id}/versions": {
+      "parameters": [
+        {
+          "name": "template_id",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "integer" }
+        }
+      ],
+      "get": {
+        "tags": ["Versiones"],
+        "summary": "Obtener versiones",
+        "description": "Obtiene todas las versiones de una plantilla",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Lista de versiones",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/TemplateVersion" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Versiones"],
+        "summary": "Crear versión",
+        "description": "Crea una nueva versión de la plantilla",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "content": { "$ref": "#/components/schemas/TemplateContent" }
+                },
+                "required": ["content"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Versión creada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": { "$ref": "#/components/schemas/TemplateVersion" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/templates/{template_id}/resources": {
+      "parameters": [
+        {
+          "name": "template_id",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "integer" }
+        }
+      ],
+      "get": {
+        "tags": ["Recursos"],
+        "summary": "Obtener recursos",
+        "description": "Obtiene todos los recursos de una plantilla",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Lista de recursos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/TemplateResource" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Recursos"],
+        "summary": "Subir recurso",
+        "description": "Sube un nuevo recurso para la plantilla",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "resource_type": {
+                    "type": "string",
+                    "enum": ["image", "logo", "other"]
+                  }
+                },
+                "required": ["file"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Recurso subido exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": { "$ref": "#/components/schemas/TemplateResource" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
+    "schemas": {
+      "ValidationRule": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["length", "range", "regex", "enum", "email", "rut", "date", "currency"]
+          },
+          "params": {
+            "type": "object"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": ["type", "params", "message"]
+      },
+      "Variable": {
+        "type": "object",
+        "properties": {
+          "variable_id": {
+            "type": "integer"
+          },
+          "template_id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "default_value": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "variable_type": {
+            "type": "string",
+            "enum": ["text", "number", "date", "email", "rut", "currency", "enum"]
+          },
+          "validation_rules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationRule"
+            }
+          }
+        }
+      },
+      "VariableCreate": {
+        "type": "object",
+        "properties": {
+          "template_id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+          },
+          "default_value": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "variable_type": {
+            "type": "string"
+          },
+          "validation_rules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationRule"
+            }
+          }
+        },
+        "required": ["template_id", "name", "variable_type"]
+      },
+      "VariableUpdate": {
+        "type": "object",
+        "properties": {
+          "default_value": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "validation_rules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationRule"
+            }
+          }
+        }
+      },
+      "VariableResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Variable"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "created_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updated_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        ]
+      },
+      "VariableBulkCreate": {
+        "type": "object",
+        "properties": {
+          "variables": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VariableCreate"
+            }
+          }
+        },
+        "required": ["variables"]
+      },
+      "PredefinedVariable": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "variable_type": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string"
+          },
+          "example": {
+            "type": "string"
+          }
+        },
+        "required": ["name", "description", "variable_type", "example"]
+      },
+      "Template": {
+        "type": "object",
+        "properties": {
+          "template_id": { "type": "integer" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "category_id": { "type": "integer" },
+          "is_active": { "type": "boolean" },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" },
+          "created_by": { "type": "integer" },
+          "updated_by": { "type": "integer" }
+        }
+      },
+      "TemplateCreate": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "category_id": { "type": "integer" },
+          "content": { "$ref": "#/components/schemas/TemplateContent" },
+          "resources": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ResourceUpload" }
+          },
+          "permissions": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/PermissionAssignment" }
+          }
+        },
+        "required": ["name", "category_id"]
+      },
+      "TemplateUpdate": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "category_id": { "type": "integer" },
+          "is_active": { "type": "boolean" }
+        }
+      },
+      "TemplateContent": {
+        "type": "object",
+        "properties": {
+          "header": { "type": "string" },
+          "body": { "type": "string" },
+          "footer": { "type": "string" }
+        },
+        "required": ["header", "body", "footer"]
+      },
+      "TemplateVersion": {
+        "type": "object",
+        "properties": {
+          "version_id": { "type": "integer" },
+          "template_id": { "type": "integer" },
+          "version_number": { "type": "integer" },
+          "content": { "$ref": "#/components/schemas/TemplateContent" },
+          "created_at": { "type": "string", "format": "date-time" },
+          "created_by": { "type": "integer" },
+          "is_active": { "type": "boolean" }
+        }
+      },
+      "TemplateResource": {
+        "type": "object",
+        "properties": {
+          "resource_id": { "type": "integer" },
+          "resource_type": { "type": "string" },
+          "original_name": { "type": "string" },
+          "url": { "type": "string" }
+        }
+      },
+      "ResourceUpload": {
+        "type": "object",
+        "properties": {
+          "file_data": { "type": "string", "format": "binary" },
+          "resource_type": { "type": "string" },
+          "original_name": { "type": "string" }
+        },
+        "required": ["file_data", "original_name"]
+      },
+      "PermissionAssignment": {
+        "type": "object",
+        "properties": {
+          "role_id": { "type": "integer" },
+          "can_view": { "type": "boolean" },
+          "can_edit": { "type": "boolean" },
+          "can_generate": { "type": "boolean" }
+        },
+        "required": ["role_id"]
+      }
+    },
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",

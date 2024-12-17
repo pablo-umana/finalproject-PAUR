@@ -5,3 +5,11 @@ class AuthenticationError(Exception):
 class AuthorizationError(Exception):
     """Excepción para errores de autorización."""
     pass
+
+class ValidationError(Exception):
+    """Excepción para errores de validación."""
+    pass
+
+class ResourceError(Exception):
+    """Excepción para errores relacionados con recursos."""
+    pass
