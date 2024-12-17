@@ -569,3 +569,426 @@ Ahora continua con la fase 5
 
 ### Prompt 48:
 
+Ahora asume el rol de desarrollador backend y crea dentro del proyecto una carpeta llamada services y crea lo necesario para iniciar un nuevo proyecto y con flask
+
+### Prompt 49:
+
+Tengo el siguiente error al ejecutar el pip install -r requirements.txt
+
+```
+ error: subprocess-exited-with-error
+
+  × Getting requirements to build wheel did not run successfully.
+  │ exit code: 1
+  ╰─> [21 lines of output]
+      running egg_info
+      writing psycopg2_binary.egg-info/PKG-INFO
+      writing dependency_links to psycopg2_binary.egg-info/dependency_links.txt
+      writing top-level names to psycopg2_binary.egg-info/top_level.txt
+
+      Error: pg_config executable not found.
+
+      pg_config is required to build psycopg2 from source.  Please add the directory
+      containing pg_config to the $PATH or specify the full executable path with the
+      option:
+
+          python setup.py build_ext --pg-config /path/to/pg_config build ...
+
+      or with the pg_config option in 'setup.cfg'.
+
+      If you prefer to avoid building psycopg2 from source, please install the PyPI
+      'psycopg2-binary' package instead.
+
+      For further information please check the 'doc/src/install.rst' file (also at
+      <https://www.psycopg.org/docs/install.html>).
+
+      [end of output]
+
+note: This error originates from a subprocess, and is likely not a problem with pip.
+```
+
+### Prompt 50:
+
+Considera que estoy en macOS
+
+### Prompt 51:
+
+Es necesario instalar PostgreSQL en mi equipo? Para desarrollo utilizare una instancia en AWS, no creo que sea necesario Posgresql en mi local
+
+### Prompt 52:
+
+Qué versión de Python necesito utilizar? En mi macOS viene con la 3.13.0 y tengo también la 3.11.  Veo que en la definición de Docker estas utilizando la imagen de la 3.9, debería usar esta versíon?
+
+### Prompt 53:
+
+Cómo desarrollador backend senior experto en Python que estructura de proyecto me recomiendas? Yo vengo de Java y Springboot donde tienes modelos para referenciar a la base de datos, repositorios para realizar las acciones sobre los modelos, servicios para la logica de negocio y finalmente los controller para exponer los servicios. Cual es la estructura recomendada para un proyecto Python con Flask, considerando que tendra conexión a la base de datos
+
+### Prompt 54:
+
+Para el caso de Python que se recomienda para los test untarios?
+
+### Prompt 55:
+
+Mi proyecto se va a instalar en ECS con Docker, entonces los datos de conexión a la base de datos van a ser variables de entorno en el contenedor, cómo puedo aplicar es para cuando este corriendo el contenedor y ademas poder desarrollar en ambiente local?
+
+### Prompt 56:
+
+Ahora que ya tenemos el proyecto base, necesito que analices el documento @readme.md que tiene todos los requerimientos de mi proyecto. Luego de analizar necesito que listes todos las tablas que idetifiques y que de acuerdo a tu criterio necesitaran un modelo. Por ahora solo entregame el listado antes de hacer cualquier cambio en el codigo.
+
+### Prompt 57:
+
+Bien entonces comienza a crear todos los modelos para cada una de las tablas identificadas, siempre considera seguir las buenas practicas.
+
+### Prompt 58:
+
+Tengo una duda, tengo que agregar las credenciales de la base de datos .env pero no quiero que se vayan al repositorio ya que estara en un repositorio publico, necesito ignorar este archivo para que no se vaya al repositorio, pero entiendo que no debería haber problema si se intenta levantar en el contenedor?
+
+### Prompt 59:
+
+Tengo una duda, tengo que agregar las credenciales de la base de datos .env pero no quiero que se vayan al repositorio ya que estara en un repositorio publico, necesito ignorar este archivo para que no se vaya al repositorio, pero entiendo que no debería haber problema si se intenta levantar en el contenedor?
+
+### Prompt 60:
+
+Explicame algo que no veo en el proyecto, en Java si quiero utilizar un motor de base de datos en especifico le debo configurar el driver y dialect. En el caso de Python como funciona esto?
+
+### Prompt 61:
+
+Volviendo al script, agrega al script la creación de un usuario por defecto que tenga acceso al sistema
+
+### Prompt 62:
+
+El primer servicio que debes crear es el del login, crea todo lo necesario siguiendo las buenas practicas
+
+### Prompt 63:
+
+Ahora con los primeros servicios desarrollados, en Python se pueden documentar los servicios con Swagger?
+
+### Prompt 64:
+
+Tengo el siguiente error:
+
+```
+ERROR: Could not find a version that satisfies the requirement flasgger==0.9.7 (from versions: 0.2.8, 0.2.9, 0.3.1, 0.3.2, 0.3.3, 0.3.4, 0.3.5, 0.3.6, 0.3.7, 0.3.8, 0.3.9, 0.4.0, 0.4.1, 0.4.3, 0.5.0, 0.5.1, 0.5.2, 0.5.3, 0.5.4, 0.5.5, 0.5.6, 0.5.7, 0.5.8, 0.5.9, 0.5.10, 0.5.11, 0.5.12, 0.5.13, 0.5.14, 0.6.0, 0.6.1, 0.6.2, 0.6.3, 0.6.4, 0.6.5, 0.6.6, 0.7.0, 0.8.0, 0.8.1, 0.8.2, 0.8.3, 0.9.0, 0.9.1, 0.9.2, 0.9.3, 0.9.4.dev0, 0.9.4.dev2, 0.9.4, 0.9.5, 0.9.7b2, 0.9.7.1, 0.9.7.2.dev0, 0.9.7.2.dev1, 0.9.7.2.dev2)
+```
+
+### Prompt 65:
+
+Ahora como desarrollador fullstack, realiza la integración del servicio de login con el login del sitio que esta en @authService.ts
+
+### Prompt 66:
+
+Cómo inicio los servicio con python?
+
+### Prompt 67:
+
+Tengo el siguiente error:
+
+```
+Error: While importing 'app', an ImportError was raised:
+
+Traceback (most recent call last):
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/flask/cli.py", line 219, in locate_app
+    __import__(module_name)
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/app/__init__.py", line 5, in <module>
+    from flasgger import Swagger
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/flasgger/__init__.py", line 10, in <module>
+    from .base import Swagger, Flasgger, NO_SANITIZER, BR_SANITIZER, MK_SANITIZER, LazyJSONEncoder  # noqa
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/flasgger/base.py", line 20, in <module>
+    from flask import Markup
+ImportError: cannot import name 'Markup' from 'flask' (/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/flask/__init__.py)
+```
+
+### Prompt 68:
+
+Ahora tengo los siguientes errores:
+
+```
+Traceback (most recent call last):
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/bin/flask", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/flask/cli.py", line 1064, in main
+    cli.main()
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/click/core.py", line 1078, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/click/core.py", line 1688, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/click/core.py", line 1434, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/click/core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/click/decorators.py", line 92, in new_func
+    return ctx.invoke(f, obj, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/click/core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/flask/cli.py", line 912, in run_command
+    raise e from None
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/flask/cli.py", line 898, in run_command
+    app = info.load_app()
+          ^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/flask/cli.py", line 313, in load_app
+    app = locate_app(import_name, None, raise_if_not_found=False)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/flask/cli.py", line 236, in locate_app
+    return find_best_app(module)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/flask/cli.py", line 64, in find_best_app
+    app = app_factory()
+          ^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/app/__init__.py", line 46, in create_app
+    from .api.auth_controller import auth_bp
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/app/api/auth_controller.py", line 2, in <module>
+    from marshmallow import ValidationError
+ModuleNotFoundError: No module named 'marshmallow'
+```
+
+### Prompt 69:
+
+Ahora este error:
+
+```
+Traceback (most recent call last):
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/bin/flask", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/flask/cli.py", line 1064, in main
+    cli.main()
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/click/core.py", line 1078, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/click/core.py", line 1688, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/click/core.py", line 1434, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/click/core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/click/decorators.py", line 92, in new_func
+    return ctx.invoke(f, obj, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/click/core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/flask/cli.py", line 912, in run_command
+    raise e from None
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/flask/cli.py", line 898, in run_command
+    app = info.load_app()
+          ^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/flask/cli.py", line 313, in load_app
+    app = locate_app(import_name, None, raise_if_not_found=False)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/flask/cli.py", line 236, in locate_app
+    return find_best_app(module)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/venv/lib/python3.11/site-packages/flask/cli.py", line 64, in find_best_app
+    app = app_factory()
+          ^^^^^^^^^^^^^
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/app/__init__.py", line 46, in create_app
+    from .api.auth_controller import auth_bp
+  File "/Users/pumanar/Repos/AI4Devs/finalproject-PAUR/services/app/api/auth_controller.py", line 3, in <module>
+    from flasgger import swag_from
+ModuleNotFoundError: No module named 'flasgger'
+```
+
+### Prompt 70:
+
+Tengo el siguiente error en el sitio:
+
+```
+hook.js:608 Error: NextRouter was not mounted. https://nextjs.org/docs/messages/next-router-not-mounted
+    at LoginForm (LoginForm.tsx:8:28)
+
+
+The above error occurred in the <LoginForm> component. It was handled by the <ReactDevOverlay> error boundary. Error Component Stack
+    at LoginForm (LoginForm.tsx:8:28)
+    at Home [Server] (<anonymous>)
+    at body (<anonymous>)
+    at html (<anonymous>)
+    at RootLayout [Server] (<anonymous>)
+
+```
+
+### Prompt 71:
+
+El diseño del login se perdio luego de los ultimos cambios realizados. Este era el diseño original:
+
+```
+<div className="min-h-screen flex items-center justify-center bg-gray-50">
+            <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-lg">
+                <div>
+                    <img className="mx-auto h-12 w-auto" src="/logo.svg" alt="Logo" />
+                    <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">Sistema de Documentos</h2>
+                </div>
+                <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                    <div className="rounded-md shadow-sm -space-y-px">
+                        <div>
+                            <label htmlFor="username" className="sr-only">
+                                Usuario
+                            </label>
+                            <input
+                                id="username"
+                                name="username"
+                                type="text"
+                                required
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                                placeholder="Ingresa tu usuario"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                        </div>
+                        <div className="relative">
+                            <label htmlFor="password" className="sr-only">
+                                Contraseña
+                            </label>
+                            <input
+                                id="password"
+                                name="password"
+                                type={showPassword ? "text" : "password"}
+                                required
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                                placeholder="Ingresa tu contraseña"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <button
+                                type="button"
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? (
+                                    <EyeSlashIcon className="h-5 w-5 text-gray-400" />
+                                ) : (
+                                    <EyeIcon className="h-5 w-5 text-gray-400" />
+                                )}
+                            </button>
+                        </div>
+                    </div>
+
+                    {error && <div className="text-red-500 text-sm text-center">{error}</div>}
+
+                    <div className="flex items-center justify-between">
+                        <div className="text-sm">
+                            <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+                                Recuperar contraseña
+                            </a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+                        >
+                            {loading ? "Ingresando..." : "Ingresar"}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+```
+
+Copia solo el diseño, pero manten la nueva funcionalidad.
+
+### Prompt 72:
+
+Ahora para todos los servicios deberían permitir el cors para todos los origenes
+
+### Prompt 73:
+
+El servicio de login me lo esta bloqueando por cors cuando intento realizar el login desde @LoginForm.tsx
+
+### Prompt 74:
+
+Hice un cambio para poder llegar al servidor y ahora no tengo problemas con el cors, sin embargo el servicio me retorna un 401
+
+### Prompt 75:
+
+Entiendo que estas securitizando los servicios con Authorizer, entonces probablemente no dejaste libre el del login. Por ahora deshabilita el Authorization para todos los servicios
+
+### Prompt 76:
+
+No logro ingresar al sistema, estoy utilizando las siguiente credenciales:
+
+Usuario: admin
+Pasword: Admin123!
+
+### Prompt 77:
+
+Estoy tengo en el log:
+
+```
+Usuario encontrado en BD: <User 1>
+Contraseña válida: False
+```
+
+### Prompt 78:
+
+Al consultar la documentación con swagger, tengo el siguient error:
+
+```
+Unable to render this definition
+The provided definition does not specify a valid version field.
+
+Please indicate a valid Swagger or OpenAPI version field. Supported version fields are swagger: "2.0" and those that match openapi: 3.0.n (for example, openapi: 3.0.0).
+```
+
+### Prompt 79:
+
+
+
+### Prompt 80:
+
+
+
+### Prompt 81:
+
+
+
+### Prompt 82:
+
+
+
+### Prompt 83:
+
+
+
+### Prompt 84:
+
+
+
+### Prompt 85:
+
+
+
+### Prompt 86:
+
+
+
+### Prompt 87:
+
+
+
+### Prompt 88:
+
+
+
+### Prompt 89:
+
+
+
+### Prompt 90:
+
+
+
+### Prompt 91:
+

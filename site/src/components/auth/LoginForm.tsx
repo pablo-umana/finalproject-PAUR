@@ -1,35 +1,37 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { login } from "@/services/auth/authService";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
-import { useRouter } from "next/navigation";
 
-export const LoginForm = () => {
+export default function LoginForm() {
     const router = useRouter();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
-        setLoading(true);
+        setIsLoading(true);
 
         try {
             const response = await login({ username, password });
-            if (response.success) {
-                localStorage.setItem("authToken", response.token || "");
+
+            if (response.success && response.token) {
                 router.push("/dashboard");
+                router.refresh();
             } else {
-                setError(response.error || "Error al iniciar sesión");
+                setError(response.error || "Error en la autenticación");
             }
         } catch (err) {
+            console.error(err);
             setError("Error al conectar con el servidor");
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     };
 
@@ -98,14 +100,14 @@ export const LoginForm = () => {
                     <div>
                         <button
                             type="submit"
-                            disabled={loading}
+                            disabled={isLoading}
                             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
                         >
-                            {loading ? "Ingresando..." : "Ingresar"}
+                            {isLoading ? "Ingresando..." : "Ingresar"}
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     );
-};
+}
